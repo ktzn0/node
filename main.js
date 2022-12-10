@@ -35,9 +35,10 @@ http.createServer(async (req, res) =>
             let audioFormats = ytdl.filterFormats(formats, "audioonly");
             for (var i = 0; i < audioFormats.length; i++)
             {
-                if (audioFormats[i].isDashMPD) continue;
+                if (audioFormats[i].isDashMPD || audioFormats[i].container != "mp4") continue;
                 else 
                 {
+                    console.log(audioFormats[i]);
                     audio = audioFormats[i].url;
                     break;
                 }
