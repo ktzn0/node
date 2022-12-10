@@ -4,20 +4,26 @@
 <style>
 body
 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
     margin: 0;
 }
 video
 {
     position: fixed;
-    min-width: 100vw;
-    min-height: 100vh;
+    width: 100%;
+    min-height: 100%;
+    max-width: 100%;
     object-fit: cover;
 }
 </style>
     </head>
     <body>
-        <video controls autoplay muted></video>
-        <audio controls autoplay></audio>
+        <video muted></video>
+        <audio controls></audio>
     </body>
 <script>
 const audio = document.getElementsByTagName("audio")[0];
