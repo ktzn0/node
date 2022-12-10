@@ -1,6 +1,7 @@
 const http = require("http");
 const fs = require("fs");
 const ytdl = require("ytdl-core")
+const ytpl = require("ytpl")
 
 function serveFile(path)
 {
@@ -12,12 +13,12 @@ http.createServer(async (req, res) =>
 {
     try
     {
-        if (req.url.startsWith("/media"))
+        if (req.url.startsWith("/song"))
         {
             var video;
             var audio;
 
-            let url = req.url.substr(7);
+            let url = req.url.substring(6);
             let media = await ytdl.getInfo(url);
             let formats = media.formats;
 
@@ -38,7 +39,6 @@ http.createServer(async (req, res) =>
                 if (audioFormats[i].isDashMPD || audioFormats[i].container != "mp4") continue;
                 else 
                 {
-                    console.log(audioFormats[i]);
                     audio = audioFormats[i].url;
                     break;
                 }
@@ -46,6 +46,20 @@ http.createServer(async (req, res) =>
 
             res.writeHead(200);
             res.end(JSON.stringify({ audio: audio, video: video }));
+        }
+        else if (req.url.startsWith("/playlist"))
+        {
+            try 
+            {
+                let url = req.url.substring(10);
+                let playlist = await ytpl(url);
+                res.writeHead(200);
+                res.end(JSON.stringify(playlist));
+            }
+            catch (err)
+            {
+                console.log(err);
+            }
         }
         else
         {

@@ -28,32 +28,51 @@ video
 <script>
 const audio = document.getElementsByTagName("audio")[0];
 const video = document.getElementsByTagName("video")[0];
-var song = {};
 
-function onFetch() 
+class Player
 {
-    audio.src = song.audio;
-    video.src = song.video;
-}
+    index = 0;
+    playlist;
+    song;
 
-async function fetchMedia(url)
-{
-    let res = await fetch(`/media@${url}`);
-    let json = await res.json();
-    return json;
+    constructor()
+    {
+
+    }
+
+    async playIndex()
+    {
+        await this.loadSong(this.playlist.items[this.index].shortUrl);
+    }
+
+    async loadPlaylist(url)
+    {
+        let res = await fetch(`/playlist@${url}`);
+        let json = await res.json();
+        this.playlist = json;
+        this.index = ~~(Math.random() * this.playlist.items.length);
+        this.playIndex();
+    }
+
+    async loadSong(url)
+    {
+        let res = await fetch(`/song@${url}`);
+        let json = await res.json();
+
+        this.song = json;
+        audio.src = json.audio;
+        video.src = json.video;
+    }
 }
+const player = new Player();
+player.loadPlaylist("https://www.youtube.com/playlist?list=PL6A3HzXDkUpSFvWreniF7zEF2f9jxu7JW");
+//player.loadSong("https://www.youtube.com/watch?v=rfvDRMtkrus");
 
 video.onclick = () =>
 {
     audio.play();
     video.play();
 }
-
-fetchMedia("https://www.youtube.com/watch?v=rfvDRMtkrus").then(media =>
-{
-    song = media;
-    onFetch();
-});
 
 </script>
 </html>

@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "ytdl-core": "^4.11.2"
+    "youtube-playlist": "^1.0.4",
+    "ytdl-core": "^4.11.2",
+    "ytpl": "^2.3.0"
   }
 }
