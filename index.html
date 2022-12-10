@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <title>node</title>
+<style>
+body
+{
+    margin: 0;
+}
+video
+{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+}
+</style>
+    </head>
+    <body>
+        <video muted autoplay></video>
+        <audio autoplay></audio>
+    </body>
+<script>
+const audio = document.getElementsByTagName("audio")[0];
+const video = document.getElementsByTagName("video")[0];
+var song = {};
+
+function onFetch() 
+{
+    audio.src = song.audio;
+    video.src = song.video;
+}
+
+async function fetchMedia(url)
+{
+    let res = await fetch(`/media@${url}`);
+    let json = await res.json();
+    return json;
+}
+
+video.onclick = () =>
+{
+    audio.play();
+    video.play();
+}
+
+fetchMedia("https://www.youtube.com/watch?v=ERHeQXEoxe4").then(media =>
+{
+    song = media;
+    onFetch();
+});
+
+</script>
+</html>
