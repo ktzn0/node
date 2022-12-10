@@ -2,11 +2,6 @@ const http = require("http");
 const fs = require("fs");
 const ytdl = require("ytdl-core")
 
-function serveMedia(url)
-{
-
-}
-
 function serveFile(path)
 {
     if (path == "/") path = "/index.html";
